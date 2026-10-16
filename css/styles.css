@@ -33,3 +33,10 @@
 body:has(.mouse-follower-card:hover) .mouse-follower {
     opacity: 1;
 }
+
+/*
+*   PORTFOLIO LIGHTBOX
+*/
+[data-fancybox] {
+    cursor: pointer;
+}

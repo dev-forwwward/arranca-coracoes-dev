@@ -16,8 +16,9 @@ export function mainInit() {
     gsap.ticker.lagSmoothing(0);
 
     // FANCYBOX INIT
-    const fancyboxEl = document.querySelector("[data-fancybox]");
-    if (fancyboxEl) {
+    // Fancybox is only loaded on pages that need it (page custom code). Bind is delegated,
+    // so it also catches [data-fancybox] elements added later (e.g. by works.js / CMS Load)
+    if (typeof Fancybox !== 'undefined') {
         Fancybox.bind("[data-fancybox]", {
             on: {
                 init: () => {
