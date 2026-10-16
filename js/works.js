@@ -7,4 +7,16 @@ export function works() {
         });
     }
 
+    // Portfolio filter: move the .active state to the selected tag
+    const filterForm = document.querySelector('[fs-cmsfilter-element="filters"]');
+    if (filterForm) {
+        const tags = filterForm.querySelectorAll('.tag.w-radio');
+        filterForm.addEventListener('change', (e) => {
+            if (e.target.type !== 'radio') return;
+            tags.forEach(tag => {
+                tag.classList.toggle('active', tag.contains(e.target));
+            });
+        });
+    }
+
 }
