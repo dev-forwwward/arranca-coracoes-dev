@@ -16,13 +16,20 @@
 /*
 *   CURSOR
 */
-/* Fixed to the viewport: JS moves it with clientX/Y */
-.mouse-follower {
+/* Mouse Follower component: wrapper is fixed at the viewport origin, JS moves the follower with clientX/Y */
+.mouse-follower-wrapper {
     position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.mouse-follower {
+    position: absolute;
     top: 0;
     left: 0;
 }
 
-.mouse-follower-container:has(.mouse-follower-card:hover) .mouse-follower {
+body:has(.mouse-follower-card:hover) .mouse-follower {
     opacity: 1;
 }

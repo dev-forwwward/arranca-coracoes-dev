@@ -42,23 +42,22 @@ export function mainInit() {
     });
 
     // MOUSE FOLLOWER
-    // Follower is position: fixed, so it tracks clientX/Y directly (no rect math).
-    // Visibility is handled in CSS via :has(.mouse-follower-card:hover).
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        document.querySelectorAll('.mouse-follower-container').forEach(container => {
-            const follower = container.querySelector('.mouse-follower');
-            if (!follower) return;
+    // One global .mouse-follower (in Global Styles), position: fixed, so it tracks clientX/Y directly.
+    // Any element with .mouse-follower-card triggers it; visibility is handled in CSS via :has().
+    const follower = document.querySelector('.mouse-follower');
+    const followerCards = document.querySelectorAll('.mouse-follower-card');
+    if (follower && followerCards.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        gsap.set(follower, { xPercent: -50, yPercent: -50 });
+        const xTo = gsap.quickTo(follower, 'x', { duration: 0.4, ease: 'power2.out' });
+        const yTo = gsap.quickTo(follower, 'y', { duration: 0.4, ease: 'power2.out' });
 
-            gsap.set(follower, { xPercent: -50, yPercent: -50 });
-            const xTo = gsap.quickTo(follower, 'x', { duration: 0.4, ease: 'power2.out' });
-            const yTo = gsap.quickTo(follower, 'y', { duration: 0.4, ease: 'power2.out' });
-
+        followerCards.forEach(card => {
             // Snap to the pointer on entry so it doesn't glide in from its last position
-            container.addEventListener('pointerenter', (e) => {
+            card.addEventListener('pointerenter', (e) => {
                 xTo(e.clientX, e.clientX);
                 yTo(e.clientY, e.clientY);
             });
-            container.addEventListener('pointermove', (e) => {
+            card.addEventListener('pointermove', (e) => {
                 xTo(e.clientX);
                 yTo(e.clientY);
             });
