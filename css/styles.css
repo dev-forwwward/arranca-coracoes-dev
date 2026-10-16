@@ -1,0 +1,28 @@
+@import url('menu.css');
+@import url('faqs.css');
+/* @import url('form-multistep-calendly.css'); */
+
+/* Text selection highlight */
+::selection {
+    background-color: var(--color-scheme-1--text-selection);
+    color: white;
+}
+
+::-moz-selection {
+    background-color: var(--color-scheme-1--text-selection);
+    color: white;
+}
+
+/*
+*   CURSOR
+*/
+/* Fixed to the viewport: JS moves it with clientX/Y */
+.mouse-follower {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.mouse-follower-container:has(.mouse-follower-card:hover) .mouse-follower {
+    opacity: 1;
+}

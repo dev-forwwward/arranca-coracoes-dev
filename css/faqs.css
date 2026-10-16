@@ -1,0 +1,81 @@
+[pb-accordion-element="content"] {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  /* Faster transitions */
+  transition: 
+    max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease-out,
+    visibility 0s linear 0.2s;
+  /* Optimize rendering */
+  will-change: max-height, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+[pb-accordion-element="content"].is-active-accordion {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition: 
+    max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease-out,
+    visibility 0s linear 0s;
+}
+
+[pb-accordion-element="arrow"] {
+  transition: transform 0.15s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate3d(0, 0, 0);
+}
+
+[pb-accordion-element="arrow"].is-active-accordion {
+  transform: rotate(180deg) translate3d(0, 0, 0);
+}
+
+[pb-accordion-element="plus"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[pb-accordion-element="plus"] svg {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translate3d(0, 0, 0);
+}
+
+[pb-accordion-element="plus"] .vertical {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+[pb-accordion-element="plus"].is-active-accordion .vertical {
+  transform: scaleY(0);
+}
+
+[pb-accordion-element="plus"]:hover {
+  opacity: 0.8;
+}
+
+[pb-accordion-element="trigger"]:focus {
+  outline: 1px solid #fff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+[pb-accordion-element="trigger"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [pb-accordion-element="content"],
+  [pb-accordion-element="arrow"],
+  [pb-accordion-element="plus"] svg,
+  [pb-accordion-element="plus"] .vertical {
+    transition: none;
+  }
+}
