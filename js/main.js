@@ -75,9 +75,17 @@ export function mainInit() {
         const xTo = gsap.quickTo(follower, 'x', { duration: 0.4, ease: 'power2.out' });
         const yTo = gsap.quickTo(follower, 'y', { duration: 0.4, ease: 'power2.out' });
 
+        // Card's follower-text attribute sets the label as "[text]", or "[prefix text]" with follower-text-prefix;
+        // unset/empty follower-text keeps the Webflow default ("[play]")
+        const followerTextEl = follower.firstElementChild || follower;
+        const defaultFollowerText = followerTextEl.textContent.trim() || '[play]';
+
         followerCards.forEach(card => {
             // Snap to the pointer on entry so it doesn't glide in from its last position
             card.addEventListener('pointerenter', (e) => {
+                const text = card.getAttribute('follower-text')?.trim();
+                const prefix = card.getAttribute('follower-text-prefix')?.trim();
+                followerTextEl.textContent = text ? `[${prefix ? `${prefix} ` : ''}${text}]` : defaultFollowerText;
                 xTo(e.clientX, e.clientX);
                 yTo(e.clientY, e.clientY);
             });
