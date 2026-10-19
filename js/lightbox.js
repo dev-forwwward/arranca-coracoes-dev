@@ -2,9 +2,10 @@ export function lightbox() {
     // Turn items into Fancybox triggers for their own image.
     // Fancybox itself is loaded via page custom code and bound in main.js.
     // Omit `item` to make the `list` element itself the trigger; omit `image` to use its first <img>
+    // `caption` is cloned as HTML, so the lightbox caption keeps the item's Webflow classes
     const galleries = [
-        // Portfolio page
-        { list: '.blog12_list', item: '.work_case_item', image: '.blog12_image', caption: 'h2', group: 'portfolio' },
+        // Portfolio page: project info block under the image
+        { list: '.blog12_list', item: '.work_case_item', image: '.blog12_image', caption: '.row.space_between', group: 'portfolio' },
         // Gallery page
         { list: '.gallery-grid', item: '.gallery-item', image: '.gallery-image', group: 'gallery' },
         // Home page showreel
@@ -28,7 +29,7 @@ export function lightbox() {
                 itemEl.setAttribute('data-fancybox', group);
                 itemEl.setAttribute('data-src', img.getAttribute('src')); // src is the original upload
                 const captionEl = caption && itemEl.querySelector(caption);
-                if (captionEl) itemEl.setAttribute('data-caption', captionEl.textContent.trim());
+                if (captionEl) itemEl.setAttribute('data-caption', captionEl.outerHTML);
             });
         };
         setLightboxAttrs();

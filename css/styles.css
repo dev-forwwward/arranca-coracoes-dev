@@ -40,3 +40,127 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
 [data-fancybox] {
     cursor: pointer;
 }
+
+/* Fancybox overrides — values from the Figma "Project Lightbox" / "Gallery Lightbox" frames (1440px desktop) */
+.fancybox__container.lightbox {
+    --fancybox-bg: var(--_primitives---colors--neutral-darkest);
+    --fancybox-color: var(--_primitives---colors--white);
+    --fancybox-hover-color: var(--_primitives---colors--white);
+}
+
+/* Toolbar: wordmark centered, close button on the right, laid over the slides */
+.lightbox .fancybox__toolbar {
+    --f-button-width: 1.5rem;
+    --f-button-height: 1.5rem;
+    --f-button-svg-width: 1.5rem;
+    --f-button-svg-height: 1.5rem;
+    --f-button-svg-stroke-width: 2;
+    --f-button-svg-filter: none;
+    --f-button-bg: transparent;
+    --f-button-hover-bg: transparent;
+    --f-button-active-bg: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    padding: 1.5rem;
+    text-shadow: none;
+}
+
+.lightbox .fancybox__toolbar__column.is-right {
+    justify-content: flex-end;
+}
+
+/* Prev/next arrows */
+.lightbox .fancybox__nav {
+    --f-button-width: 1.5rem;
+    --f-button-height: 1.5rem;
+    --f-button-svg-width: 1.5rem;
+    --f-button-svg-height: 1.5rem;
+    --f-button-svg-stroke-width: 2;
+    --f-button-svg-filter: none;
+    --f-button-hover-bg: transparent;
+    --f-button-active-bg: transparent;
+    --f-button-prev-pos: 1.5rem;
+    --f-button-next-pos: 1.5rem;
+}
+
+/* Gallery: image fills the height between the 80px top/bottom bands */
+.lightbox .fancybox__slide {
+    padding: 5.556vw 10.486vw;
+}
+
+/* Project: 16:9 image, 1138px wide and vertically centered */
+.lightbox .fancybox__slide.has-caption {
+    padding: 9.028vw 10.486vw;
+}
+
+/* Project info: zero-height so the image stays centered; the info hangs 16px below it.
+   Width tracks the 16:9 image, which becomes height-bound on viewports wider than 16:10 */
+.lightbox .fancybox__slide .fancybox__caption {
+    width: min(100%, calc((100vh - 18.056vw) * 16 / 9));
+    height: 0;
+    padding: 0;
+    overflow: visible;
+    color: var(--fancybox-color);
+}
+
+.lightbox .fancybox__slide .fancybox__caption > * {
+    padding-top: 1rem;
+}
+
+/* Idle: hide project info along with the toolbar and arrows */
+.lightbox.is-idle:not(.is-compact) .fancybox__caption {
+    animation: .15s ease-out both f-fadeOut;
+}
+
+/* Mobile: full-width image, no arrows, info stacked at the bottom of the screen */
+.lightbox.is-compact .fancybox__toolbar {
+    --f-button-width: 2rem;
+    --f-button-height: 2rem;
+    --f-button-svg-width: 2rem;
+    --f-button-svg-height: 2rem;
+    --f-button-svg-stroke-width: 1.125; /* renders as Figma's 1.5px stroke at 32px */
+    padding: 0.5rem;
+}
+
+.lightbox.is-compact .fancybox__nav {
+    display: none;
+}
+
+.lightbox.is-compact .fancybox__slide {
+    padding: 0;
+}
+
+.lightbox.is-compact .fancybox__footer {
+    background: transparent;
+}
+
+.lightbox.is-compact .fancybox__footer .fancybox__caption {
+    padding: 0 1.5rem 2rem;
+    color: var(--fancybox-color);
+}
+
+.lightbox.is-compact .fancybox__caption .space_between {
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lightbox.is-compact .fancybox__caption .space_between > :last-child {
+    justify-content: flex-end;
+}
+
+
+/*
+*   HOME PAGE
+*/
+.work-categories-item:hover {
+    .work-categories-bg {
+        opacity: 1;
+    }
+
+    color: var(--_primitives---colors--white);
+}
