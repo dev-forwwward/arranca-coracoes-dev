@@ -13,6 +13,7 @@ const modules = [
     { path: 'faqs', exportName: 'faqs' },
     { path: 'menu', exportName: 'navBarMenu' },
     { path: 'footer-date', exportName: 'footerDate' },
+    { path: 'heart-bg', exportName: 'heartBg' },
 ];
 
 let inits = [];
