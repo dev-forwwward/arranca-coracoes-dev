@@ -12,7 +12,8 @@ export function navBarMenu() {
     // Hide initially with class
     //mobileMenu.classList.add('is-hidden');
 
-    trigger.addEventListener("click", function (event) {
+    // Optional: #menu-trigger only exists in Navbar-main, and a throw here would skip the rest of navBarMenu()
+    trigger?.addEventListener("click", function (event) {
         event.stopPropagation();
 
         const isOpen = menuNavBar.classList.contains("w--open");
@@ -387,6 +388,47 @@ export function navBarMenu() {
     };
 
     navbarColorHandler();
+
+
+
+    // ---------------------------------------
+    // NAV SCROLL LINKS - Navbar-main-2 (.nav)
+    // Scrolling down hides the links (lines drawn in their place), scrolling up brings them back, wherever
+    // the page is. Hovering the links brings them back too, and they leave again on mouse out (if the page
+    // is still in its scrolled-down state). Styles in css/styles.css > NAV
+    // Wrapped in its own function so its early return doesn't skip the rest of navBarMenu()
+    const navScrollLinks = () => {
+        const nav = document.querySelector('.nav');
+        const links = nav?.querySelector('.nav__links');
+        if (!links) return;
+
+        // Pin each item to its natural height so the squeeze can animate (height: auto can't)
+        nav.classList.add('measuring');
+        links.style.setProperty('--li-h', links.firstElementChild.offsetHeight + 'px');
+        nav.classList.remove('measuring');
+
+        const DOWN_DELTA = 6; // px scrolled down before the links leave
+        const UP_DELTA = 1;   // px scrolled up before they return: reacts straight away
+        let lastY = window.scrollY;
+        let scrollHidden = false;
+        let hovering = false;
+        const render = () => nav.classList.toggle('is-scrolled', scrollHidden && !hovering);
+
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            const dy = y - lastY;
+            if (dy >= DOWN_DELTA) scrollHidden = true;
+            else if (dy <= -UP_DELTA) scrollHidden = false;
+            else return; // not enough movement: keep the reference point
+            lastY = y;
+            render();
+        }, { passive: true });
+
+        links.addEventListener('mouseenter', () => { hovering = true; render(); });
+        links.addEventListener('mouseleave', () => { hovering = false; render(); });
+    };
+
+    navScrollLinks();
 
 
 

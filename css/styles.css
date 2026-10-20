@@ -21,6 +21,108 @@
 }
 
 /*
+*   NAV (Navbar-main-2)
+*/
+/* Layout and typography live in Webflow; this is the scroll interaction, driven by navScrollLinks() in menu.js.
+   While scrolling down (.is-scrolled) each link slides off to the right and a 2.5rem line is drawn in its place.
+   --i is each item's index (set on .nav__item in Webflow), used to stagger both animations */
+.nav {
+    /* One set of timings for both directions. Only the easing differs */
+    --slide: 600ms;        /* link sliding off / back in */
+    --draw: 450ms;         /* line drawing / retracting, and the stack squeezing / expanding */
+    --stagger: 50ms;       /* extra delay per item */
+    --line-delay: 120ms;   /* going away: lines start this long after the link starts moving */
+    --ease: cubic-bezier(.9, 0, .1, 1);           /* going away: slow start, sharp end */
+    --ease-line: cubic-bezier(.45, 0, .55, 1);    /* lines going away: even speed, no sudden burst */
+    --ease-back: cubic-bezier(.2, 0, .05, 1);     /* lines coming back: quick start, soft end */
+    --ease-text-in: cubic-bezier(.02, .85, 0, 1); /* text coming back: long, soft landing */
+}
+
+/* Resting state, also used when coming back (scrolling up). --li-h is the natural item height, set by the script.
+   The height transition is not staggered: see the scrolled state below */
+.nav__item {
+    height: var(--li-h, auto);
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+    transition: height var(--draw) var(--ease-back);
+}
+
+.nav__link {
+    transition: translate var(--slide) var(--ease-text-in) calc(var(--i) * var(--stagger));
+}
+
+.nav__item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc(50% - 0.0625rem);
+    width: 2.5rem;
+    height: 0.125rem;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--draw) var(--ease-back) calc(var(--i) * var(--stagger)),
+                left var(--draw) var(--ease-back) calc(var(--i) * var(--stagger));
+}
+
+/* Hover underline, drawn in from the left. text-decoration can't be animated, so it is a pseudo-element.
+   The item is trimmed to its cap height, so the baseline is the link's bottom edge; the line sits just below it */
+.nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: calc(100% + 0.25rem);
+    width: 100%;
+    height: 0.09375rem;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-line);
+}
+
+.nav__link:hover::after {
+    transform: scaleX(1);
+}
+
+/* Scrolled state: going away. Same durations, different easing, lines start a little later */
+.nav.is-scrolled {
+    .nav__link {
+        transition-timing-function: var(--ease);
+        translate: calc(100vw + 100%) 0;
+        pointer-events: none;
+    }
+
+    /* Each item collapses to its line while the line is drawn, so the gap sits between lines.
+       Not staggered: every item above a line moves it, so staggering would make the last line jump */
+    .nav__item {
+        height: 0.125rem;
+        transition-timing-function: var(--ease-line);
+        transition-delay: var(--line-delay);
+    }
+
+    .nav__item::after {
+        transform: scaleX(1);
+        left: calc(100% - 2.5rem); /* starts at the text's left edge, ends at the right margin */
+        transition-timing-function: var(--ease-line);
+        transition-delay: calc(var(--line-delay) + var(--i) * var(--stagger));
+    }
+}
+
+/* Set by the script for a moment while it measures the natural item height */
+.nav.measuring .nav__item {
+    height: auto !important;
+    transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav__link,
+    .nav__item,
+    .nav__item::after {
+        transition-duration: 1ms;
+    }
+}
+
+/*
 *   CURSOR
 */
 /* Mouse Follower component: wrapper is fixed at the viewport origin, JS moves the follower with clientX/Y */
