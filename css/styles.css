@@ -2,15 +2,22 @@
 @import url('faqs.css');
 /* @import url('form-multistep-calendly.css'); */
 
-/* Text selection highlight */
+/*
+*   TEXT SELECTION HIGHLIGHT
+*/
+/* Default: red highlight, black text */
 ::selection {
-    background-color: var(--color-scheme-1--text-selection);
-    color: white;
+    background-color: var(--_primitives---colors--red);
+    color: var(--_primitives---colors--neutral-darkest);
 }
 
-::-moz-selection {
-    background-color: var(--color-scheme-1--text-selection);
-    color: white;
+/* On red backgrounds: black highlight, red text */
+.highlight-bg-color {
+    &::selection,
+    & ::selection {
+        background-color: var(--_primitives---colors--neutral-darkest);
+        color: var(--_primitives---colors--red);
+    }
 }
 
 /*
