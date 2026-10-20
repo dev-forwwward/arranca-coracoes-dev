@@ -6,12 +6,12 @@ const v = Date.now();
 // Add a script here to have it loaded and initialized automatically
 const modules = [
     { path: 'main', exportName: 'mainInit' },
-    { path: 'menu', exportName: 'navBarMenu' },
     { path: 'swiper', exportName: 'swiperInit' },
     { path: 'works', exportName: 'works' },
     { path: 'lightbox', exportName: 'lightbox' },
     { path: 'form', exportName: 'form' },
     { path: 'faqs', exportName: 'faqs' },
+    { path: 'menu', exportName: 'navBarMenu' },
     { path: 'footer-date', exportName: 'footerDate' },
 ];
 
