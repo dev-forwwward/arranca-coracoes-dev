@@ -134,6 +134,81 @@
 }
 
 /*
+*   LINK BUTTONS (Button Basic Link, Button Link)
+*/
+/* Box styles live in Webflow (.button.is-basic-link / .button.is-link); these are the hover underlines from the
+   arranca-coracoes Button hover prototype. text-decoration can't be animated, so the lines are pseudo-elements.
+   The link is trimmed to its cap height, so the baseline is its bottom edge; the line sits just below it */
+.button.is-basic-link,
+.button.is-link {
+    --ease-line: cubic-bezier(.45, 0, .55, 1);   /* same as the nav */
+    --ease-out: cubic-bezier(.2, 0, .05, 1);     /* quick start, soft end */
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+}
+
+.button.is-basic-link::after,
+.button.is-link::before,
+.button.is-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0.09375rem;
+    background: currentColor;
+}
+
+/* Basic link: underline draws in from the left */
+.button.is-basic-link::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-line);
+}
+
+.button.is-basic-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* Underline link: ::before is the resting underline, ::after the new one. On hover the resting line undraws to the
+   right, then the new one draws in from the left. On leave the same runs in reverse */
+.button.is-link {
+    --draw: .3s;   /* each line's duration */
+    --gap: 0s;     /* pause between the two lines (same in and out) */
+}
+
+.button.is-link::before {
+    transform-origin: left;
+    transition: transform var(--draw) var(--ease-out) calc(var(--draw) + var(--gap));
+}
+
+.button.is-link:hover::before {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition-delay: 0s;
+}
+
+.button.is-link::after {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--draw) var(--ease-out);
+}
+
+.button.is-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+    transition-delay: calc(var(--draw) + var(--gap));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .button.is-basic-link::after,
+    .button.is-link::before,
+    .button.is-link::after {
+        transition-duration: 1ms;
+    }
+}
+
+/*
 *   CURSOR
 */
 /* Mouse Follower component: wrapper is fixed at the viewport origin, JS moves the follower with clientX/Y */
