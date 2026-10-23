@@ -108,6 +108,17 @@
     }
 }
 
+.with-fancybox {
+    .navbar-wrapper {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .navbar-wrapper * {
+        pointer-events: none;
+    }
+}
+
 /* Set by the script for a moment while it measures the natural item height */
 .nav.measuring .nav__item {
     height: auto !important;
@@ -157,8 +168,10 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
     --fancybox-hover-color: var(--_primitives---colors--white);
 }
 
-/* Toolbar: wordmark centered, close button on the right, laid over the slides */
+/* Toolbar: close button only, on the right, laid over the slides */
 .lightbox .fancybox__toolbar {
+    --f-button-color: var(--_primitives---colors--white);
+    --f-button-hover-color: var(--_primitives---colors--white);
     --f-button-width: 1.5rem;
     --f-button-height: 1.5rem;
     --f-button-svg-width: 1.5rem;
@@ -172,9 +185,9 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
     top: 0;
     left: 0;
     right: 0;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: start;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
     padding: 1.5rem;
     text-shadow: none;
 }
@@ -221,9 +234,9 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
     padding-top: 1rem;
 }
 
-/* Idle: hide project info along with the toolbar and arrows */
-.lightbox.is-idle:not(.is-compact) .fancybox__caption {
-    animation: .15s ease-out both f-fadeOut;
+/* Idle: keep the caption visible on mobile too (Fancybox fades the footer that holds it) */
+.lightbox.is-idle.is-compact .fancybox__footer {
+    animation: none;
 }
 
 /* Mobile: full-width image, no arrows, info stacked at the bottom of the screen */

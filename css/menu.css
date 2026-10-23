@@ -78,19 +78,29 @@
         bottom: 12px;
     }
 
+    @media screen and (min-width: 992px) {
+        .mobile-dropdown-menu {
+            display: none !important;
+        }
+    }
+
     @media screen and (max-width: 991px) {
         .menu-icon2_line-top {
-            top: 4px;
+            top: 8px;
         }
 
         .menu-icon2_line-bottom {
-            bottom: 4px;
+            bottom: 8px;
         }
     }
 
 
     .mobile-menu-button_text {
         transform: translateY(-1.5rem);
+    }
+
+    .menu-icon2_line-middle {
+        opacity: 0;
     }
 
     /* .mobile-dropdown-menu {
