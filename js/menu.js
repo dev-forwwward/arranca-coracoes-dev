@@ -331,44 +331,6 @@ export function navBarMenu() {
 
 
 
-    /* Menu HIDE/REVEAL w/ Scroll */
-    let lastScrollTop = 0;
-    const navComponent = document.querySelector(".navbar_component");
-
-    if (!navComponent) {
-        console.warn("navComponent not found.");
-        return;
-    }
-
-    const handleScroll = () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const isOpen = menuNavBar.classList.contains("w--open");
-
-        if (!isOpen) {
-            if (scrollTop > lastScrollTop && scrollTop > 10) {
-                let navHeight = navComponent.offsetHeight;
-                navComponent.style.top = `-${navHeight}px`;
-            } else {
-                navComponent.style.top = "0";
-            }
-        }
-
-        if (scrollTop > 50 && !isOpen) {
-            navComponent.classList.add("scrolled");
-        } else {
-            navComponent.classList.remove("scrolled");
-        }
-
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    };
-
-    // Run scroll logic on load in case page is opened mid-scroll
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-
-
-
     // when the user hovers a link on the right side, 
     // the image on the left of the submenu should change
     //
