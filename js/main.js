@@ -21,18 +21,14 @@ export function mainInit() {
     if (typeof Fancybox !== 'undefined') {
         // Icon paths from Figma; stroke color/width come from CSS (currentColor + --f-button-svg-stroke-width)
         const icon = (d) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" tabindex="-1"><path d="${d}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-        // Toolbar wordmark reuses the navbar's Webflow class, so it follows the site's typography
-        const brandText = document.querySelector('.navbar-desktop-text')?.textContent.trim() || '';
-
         Fancybox.bind("[data-fancybox]", {
             mainClass: 'lightbox',
             // Match the site's mobile breakpoint: below it, the caption moves to the footer (mobile layout)
             compact: () => window.matchMedia(`(max-width: ${window.mobileBreakpoint}px)`).matches,
             Toolbar: {
                 enabled: true,
-                display: { left: [], middle: ['brand'], right: ['close'] },
+                display: { left: [], middle: [], right: ['close'] },
                 items: {
-                    brand: { tpl: `<div class="navbar-desktop-text">${brandText}</div>` },
                     close: { tpl: `<button class="f-button" title="{{CLOSE}}" data-fancybox-close>${icon('M18 6L12 12M12 12L6 18M12 12L6 6M12 12L18 18')}</button>` },
                 },
             },
