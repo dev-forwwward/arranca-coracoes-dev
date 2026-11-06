@@ -9,6 +9,7 @@ const modules = [
     { path: 'swiper', exportName: 'swiperInit' },
     { path: 'works', exportName: 'works' },
     { path: 'lightbox', exportName: 'lightbox' },
+    { path: 'video-preview', exportName: 'videoPreview' },
     { path: 'form', exportName: 'form' },
     { path: 'faqs', exportName: 'faqs' },
     { path: 'menu', exportName: 'navBarMenu' },

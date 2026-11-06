@@ -361,3 +361,14 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
 
     color: var(--_primitives---colors--white);
 }
+
+/* Hover video previews (video-preview.js): the <video> comes from an HTML embed with no size of its own, so it would
+   render at the file's intrinsic resolution. Fill the nearest positioned ancestor and crop like the poster image */
+.video-preview-embed video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
