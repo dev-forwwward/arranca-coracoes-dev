@@ -34,6 +34,10 @@ export function mainInit() {
                 },
             },
             Thumbs: false,
+            // No zooming into images (click, wheel or pinch): they stay at their fitted size
+            Images: {
+                Panzoom: { maxScale: 1 },
+            },
             Carousel: {
                 Navigation: {
                     prevTpl: icon('M15 18L9 12L15 6'),

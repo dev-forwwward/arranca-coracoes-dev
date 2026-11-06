@@ -119,6 +119,21 @@
     }
 }
 
+.fancybox__caption {
+    .row.width-min-content {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .fancybox__caption .row.hide-tablet.width-min-content.gap_2 {
+        display: flex !important;
+        flex-flow: column-reverse;
+        gap: .25rem;
+        align-self: self-end;
+    }
+}
+
 /* Set by the script for a moment while it measures the natural item height */
 .nav.measuring .nav__item {
     height: auto !important;
@@ -341,12 +356,12 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
     color: var(--fancybox-color);
 }
 
-.lightbox.is-compact .fancybox__caption .space_between {
+.lightbox.is-compact .fancybox__caption .blog12_item-row-container {
     flex-direction: column;
     gap: 1rem;
 }
 
-.lightbox.is-compact .fancybox__caption .space_between > :last-child {
+.lightbox.is-compact .fancybox__caption .blog12_item-row-container > :last-child {
     justify-content: flex-end;
 }
 

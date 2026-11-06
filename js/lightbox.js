@@ -74,7 +74,7 @@ export function lightbox() {
     // An item with a valid data-video-src plays that video instead (its image becomes the poster)
     const galleries = [
         // Portfolio page: project info block under the image; data-video-src bound to the Work's Dropbox Link in Webflow
-        { list: '.blog12_list', item: '.work_case_item', image: '.blog12_image', caption: '.row.space_between', group: 'portfolio' },
+        { list: '.blog12_list', item: '.work_case_item', image: '.blog12_image', caption: '.blog12_item-row-container', group: 'portfolio' },
         // Gallery page
         { list: '.gallery-grid', item: '.gallery-item', image: '.gallery-image', group: 'gallery' },
         // Home page showreel
