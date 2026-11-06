@@ -364,11 +364,29 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
 
 /* Hover video previews (video-preview.js): the <video> comes from an HTML embed with no size of its own, so it would
    render at the file's intrinsic resolution. Fill the nearest positioned ancestor and crop like the poster image */
-.video-preview-embed video {
+.preview-video,
+.video-preview-embed video,
+video[data-preview-src] {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* The same preview video, moved into the lightbox by video-preview.js (Fancybox inline content):
+   sized like the project lightbox's 16:9 media, so the caption below keeps lining up with it */
+.lightbox .fancybox__slide > .preview-video.fancybox__content {
+    position: relative;
+    inset: auto;
+    width: min(100%, calc((100vh - 18.056vw) * 16 / 9));
+    height: auto;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    background: transparent;
+}
+
+.lightbox .preview-video.fancybox__content > video {
+    object-fit: contain;
 }

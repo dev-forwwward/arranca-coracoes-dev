@@ -19,6 +19,7 @@ export function mainInit() {
     // Fancybox is only loaded on pages that need it (page custom code). Bind is delegated,
     // so it also catches [data-fancybox] elements added later (e.g. by works.js / CMS Load)
     if (typeof Fancybox !== 'undefined') {
+        const lightboxNotify = (slide, state) => slide?.contentEl?.dispatchEvent(new CustomEvent(`lightbox:${state}`));
         // Icon paths from Figma; stroke color/width come from CSS (currentColor + --f-button-svg-stroke-width)
         const icon = (d) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" tabindex="-1"><path d="${d}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
         Fancybox.bind("[data-fancybox]", {
@@ -43,9 +44,23 @@ export function mainInit() {
                 init: () => {
                     lenis.stop();
                 },
-                close: () => {
+                close: (fancybox) => {
                     lenis.start();
-                }
+                    lightboxNotify(fancybox.getSlide(), 'hide');
+                },
+                // Tell the slide's own content when it's shown/hidden, e.g. a hover preview video that
+                // video-preview.js hands to the lightbox as inline content (it plays/pauses itself on these)
+                // done: content ready, also fired for preloaded neighbours, hence the current-slide check
+                done: (fancybox, slide) => {
+                    if (fancybox.isCurrentSlide(slide)) lightboxNotify(slide, 'show');
+                },
+                // Navigated to: only if its content is already ready, otherwise `done` follows
+                'Carousel.selectSlide': (fancybox, carousel, slide) => {
+                    if (slide.el?.classList.contains('is-done')) lightboxNotify(slide, 'show');
+                },
+                'Carousel.unselectSlide': (fancybox, carousel, slide) => {
+                    lightboxNotify(slide, 'hide');
+                },
             }
         });
     }
