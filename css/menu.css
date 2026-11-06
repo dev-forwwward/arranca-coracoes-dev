@@ -86,11 +86,11 @@
 
     @media screen and (max-width: 991px) {
         .menu-icon2_line-top {
-            top: 8px;
+            top: 9px;
         }
 
         .menu-icon2_line-bottom {
-            bottom: 8px;
+            bottom: 9px;
         }
     }
 
