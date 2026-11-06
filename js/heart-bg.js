@@ -35,11 +35,14 @@ export function heartBg() {
     // Reduced motion: the lines stay concentric, so there is nothing to animate
     if (reduceMotion) return;
 
-    window.addEventListener('pointermove', e => {
-        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
-    });
-    document.documentElement.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; });
+    // Desktop pointer tracking: pointer.x/y are -1..1 from the screen centre, 0 at rest
+    if (window.innerWidth > 991) {
+        window.addEventListener('pointermove', e => {
+            pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+            pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+        document.documentElement.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; });
+    }
 
     // ===== Animation loop ======================================================
     (function frame() {
