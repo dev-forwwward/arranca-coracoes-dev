@@ -246,6 +246,33 @@ body:has(.mouse-follower-card:hover) .mouse-follower {
 }
 
 /*
+*   PORTFOLIO LIST
+*/
+/* Project info row: the right-hand group (client/director) is min-content in Webflow, which wraps every word onto its
+   own line. Let it size to its text instead (also in the lightbox caption, which clones this row) */
+.blog12_item-row-container > .width-min-content {
+    width: auto;
+}
+
+/* Left side (title + subtitle) is width: 100% in Webflow, so it claimed its full 24rem first. Size it to its content
+   too, so both sides start from their natural width and give up space evenly when the row is tight */
+.blog12_item-row-container > .blog12_item-row-container-inner-main-row {
+    width: auto;
+}
+
+/* Both headings wrap at 15 characters: uppercase F 37 Judge runs up to ~0.42em per character (ch is wider) */
+.blog12_item-row-container .heading-style-h3_custom {
+    max-width: 6.3em;
+}
+
+/* When the row is tight, the small subtitles wrap first and headings only once those can't wrap any further.
+   Huge factor so the headings' share rounds to 0px (even a sub-pixel less would wrap a word); headings keep the
+   default 1, since factors below 1 would make them give up too little and overflow the row */
+.blog12_item-row-container .work-lower-text {
+    flex-shrink: 100000;
+}
+
+/*
 *   PORTFOLIO LIGHTBOX
 */
 [data-fancybox] {

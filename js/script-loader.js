@@ -16,6 +16,7 @@ const modules = [
     { path: 'footer-date', exportName: 'footerDate' },
     { path: 'heart-bg', exportName: 'heartBg' },
     { path: 'masonry', exportName: 'masonry' },
+    { path: 'heading-fit', exportName: 'headingFit' },
 ];
 
 let inits = [];
