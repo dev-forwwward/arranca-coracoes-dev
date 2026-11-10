@@ -1,0 +1,14 @@
+/* Gallery page masonry (js/masonry.js)
+   Columns and gap stay in Webflow; this only turns rows into 1px steps that each item spans by its own height.
+   Scoped to .is-masonry (added by the script) so the grid keeps its normal Webflow layout if the script never runs */
+.gallery-grid.is-masonry {
+  grid-auto-rows: 1px; /* must match ROW in js/masonry.js */
+  row-gap: 0;          /* the vertical gap is added to each item's span instead (taken from the column gap) */
+  align-items: start;  /* items keep their natural height instead of stretching to their span */
+}
+
+/* Webflow fixes these media boxes at 16:9; follow each item's own video/image ratio instead (set by the script) */
+.gallery-item .blog12_item-img-container,
+.gallery-item .blog12_video {
+  aspect-ratio: var(--masonry-ratio, 16 / 9);
+}

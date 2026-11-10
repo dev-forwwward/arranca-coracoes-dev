@@ -1,5 +1,6 @@
 @import url('menu.css');
 @import url('faqs.css');
+@import url('masonry.css');
 /* @import url('form-multistep-calendly.css'); */
 
 /*
@@ -388,6 +389,10 @@ video[data-preview-src] {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.fancybox__container .preview-video {
+    height: auto;
 }
 
 /* The same preview video, moved into the lightbox by video-preview.js (Fancybox inline content):

@@ -15,6 +15,7 @@ const modules = [
     { path: 'menu', exportName: 'navBarMenu' },
     { path: 'footer-date', exportName: 'footerDate' },
     { path: 'heart-bg', exportName: 'heartBg' },
+    { path: 'masonry', exportName: 'masonry' },
 ];
 
 let inits = [];
