@@ -7,8 +7,34 @@
   align-items: start;  /* items keep their natural height instead of stretching to their span */
 }
 
+/* Mobile (window.mobileBreakpoint): 2 columns instead of Webflow's 4 */
+@media (max-width: 767px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* Webflow fixes these media boxes at 16:9; follow each item's own video/image ratio instead (set by the script) */
 .gallery-item .blog12_item-img-container,
 .gallery-item .blog12_video {
   aspect-ratio: var(--masonry-ratio, 16 / 9);
+}
+
+/* Lightbox: instead of the shared 16:9 box (styles.css), the gallery video opens at its own ratio, as big as fits
+   inside the slide padding (5.556vw top + bottom; none on mobile). --media-ratio is set on the wrapper by the script */
+.lightbox .fancybox__slide > .preview-video.fancybox__content.has-media-ratio {
+  aspect-ratio: var(--media-ratio);
+  width: min(100%, calc((100vh - 11.112vw) * var(--media-ratio)));
+}
+
+.lightbox.is-compact .fancybox__slide > .preview-video.fancybox__content.has-media-ratio {
+  width: min(100%, calc(100vh * var(--media-ratio)));
+}
+
+.lightbox .preview-video.fancybox__content.has-media-ratio > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
