@@ -1,0 +1,4 @@
+{
+    // The Webflow page loads script-loader.js as a module from this server (?dev=true); cross-origin modules need CORS headers
+    "liveServer.settings.cors": true
+}
