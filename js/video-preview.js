@@ -75,6 +75,26 @@ const setupVideo = (video) => {
     wrap.appendChild(video);
     const inLightbox = () => wrap.classList.contains('fancybox__content');
 
+    // Lightbox sizing: instead of the default 16:9 box (styles.css), the video opens at its own ratio. The ratio is also
+    // copied onto the lightbox slide while the wrapper is in there, so the caption (its sibling) can match the video's width
+    let ratio = 0;
+    const syncSlideRatio = () => {
+        if (ratio && inLightbox()) wrap.parentElement?.style.setProperty('--media-ratio', ratio);
+    };
+    const setMediaRatio = () => {
+        const { videoWidth: w, videoHeight: h } = video;
+        if (!w || !h) return;
+        ratio = w / h;
+        wrap.style.setProperty('--media-ratio', ratio);
+        // Guarded: classList.add rewrites the class attribute even when the class is already there, which fires the
+        // class observer below; it must never do that from inside the observer, or the two keep triggering each other
+        if (!wrap.classList.contains('has-media-ratio')) wrap.classList.add('has-media-ratio');
+        syncSlideRatio();
+    };
+    // The src may only be set later (viewport / hover / lightbox), so wait for its metadata
+    if (video.readyState >= 1) setMediaRatio();
+    video.addEventListener('loadedmetadata', setMediaRatio);
+
     // .video-preview-embed.always-on: plays on loop by itself instead of on hover (any number per page)
     const alwaysOn = !!video.closest(ALWAYS_ON);
     let onScreen = false;
@@ -102,6 +122,7 @@ const setupVideo = (video) => {
 
         // lightbox:show / lightbox:hide are dispatched on the slide content by the Fancybox options in main.js
         wrap.addEventListener('lightbox:show', () => {
+            syncSlideRatio();
             load();
             video.controls = true;
             video.muted = false;
@@ -124,6 +145,8 @@ const setupVideo = (video) => {
         new MutationObserver(() => {
             if (inLightbox()) {
                 moved = true;
+                // Only touches the slide's style, never the wrapper's class (see setMediaRatio)
+                syncSlideRatio();
                 return;
             }
             if (!moved) return;

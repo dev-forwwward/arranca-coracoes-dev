@@ -434,6 +434,32 @@ video[data-preview-src] {
     background: transparent;
 }
 
+/* The video fills its box instead of taking its natural height: a non-16:9 video would otherwise spill out of the
+   box and cover the caption */
 .lightbox .preview-video.fancybox__content > video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+/* Once its ratio is known (--media-ratio, set by video-preview.js), the video opens at that ratio instead of 16:9,
+   as big as fits inside the slide padding: 5.556vw top + bottom (gallery), 9.028vw with a caption (project), none on mobile */
+.lightbox .fancybox__slide > .preview-video.fancybox__content.has-media-ratio {
+    aspect-ratio: var(--media-ratio);
+    width: min(100%, calc((100vh - 11.112vw) * var(--media-ratio)));
+}
+
+.lightbox .fancybox__slide.has-caption > .preview-video.fancybox__content.has-media-ratio {
+    width: min(100%, calc((100vh - 18.056vw) * var(--media-ratio)));
+}
+
+.lightbox.is-compact .fancybox__slide > .preview-video.fancybox__content.has-media-ratio {
+    width: min(100%, calc(100vh * var(--media-ratio)));
+}
+
+/* Project info keeps lining up with the video: video-preview.js copies --media-ratio onto the slide */
+.lightbox .fancybox__slide.has-caption .fancybox__caption {
+    width: min(100%, calc((100vh - 18.056vw) * var(--media-ratio, 16 / 9)));
 }

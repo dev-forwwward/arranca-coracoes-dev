@@ -5,6 +5,12 @@ const ROW = '.blog12_item-row-container';
 const HEADING = '.heading-style-h3_custom';
 const SUBTITLE = '.work-lower-text';
 
+// Lightbox caption: the info hangs in the band under the video, which only has room for 3 lines of heading.
+// A heading that would wrap to more gets just enough extra width (out of the gap between the row's two sides) to fit
+// in 3. Every other heading, and the portfolio list, keep the usual 6.3em measure (styles.css)
+const CAPTION = '.fancybox__caption';
+const MAX_LINES = 3;
+
 // Widest rendered line: the range gives one rect per line fragment, grouped here by line
 const longestLine = (el) => {
     const range = document.createRange();
@@ -30,12 +36,38 @@ const hug = (el) => {
     }
 };
 
+// Rendered lines: one top per line, give or take rounding between a line's fragments
+const lineCount = (el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const tops = [...range.getClientRects()].filter((r) => r.width).map((r) => r.top).sort((a, b) => a - b);
+    return tops.filter((top, i) => i === 0 || top - tops[i - 1] > 2).length;
+};
+
+// Over MAX_LINES: lift the max-width, then narrow it back down to the narrowest width that still fits
+const widen = (el) => {
+    if (lineCount(el) <= MAX_LINES) return;
+    let lo = el.getBoundingClientRect().width; // too narrow
+    el.style.maxWidth = 'none';
+    // Even all the room the row can give isn't enough: leave it with all of it
+    if (lineCount(el) > MAX_LINES) return;
+    let hi = el.getBoundingClientRect().width; // wide enough
+    while (hi - lo > 1) {
+        const mid = (lo + hi) / 2;
+        el.style.maxWidth = `${mid}px`;
+        if (lineCount(el) <= MAX_LINES) hi = mid;
+        else lo = mid;
+    }
+    el.style.maxWidth = `${Math.ceil(hi)}px`;
+};
+
 const fit = (row) => {
     const headings = row.querySelectorAll(HEADING);
     const subtitles = row.querySelectorAll(SUBTITLE);
     // Let everything wrap at its natural width first
-    headings.forEach((el) => { el.style.width = ''; });
+    headings.forEach((el) => { el.style.width = ''; el.style.maxWidth = ''; });
     subtitles.forEach((el) => { el.style.width = ''; });
+    if (row.closest(CAPTION)) headings.forEach(widen);
     // Headings first: the space they give back can unwrap a subtitle, so subtitles are measured after
     // Second pass: in a tight row flex can still squeeze a box below the width set, rewrapping it narrower again.
     // Each pass only narrows, so two settle it

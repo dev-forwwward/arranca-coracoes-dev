@@ -16,13 +16,6 @@ const watchMedia = (item) => {
         const apply = () => {
             const { videoWidth: w, videoHeight: h } = video;
             setRatio(item, w, h);
-            // Also on the wrapper video-preview.js moves into the lightbox, so it can open at the video's own ratio
-            // instead of the default 16:9 box (masonry.css)
-            const wrap = video.closest('.preview-video');
-            if (wrap && w && h) {
-                wrap.style.setProperty('--media-ratio', w / h);
-                wrap.classList.add('has-media-ratio');
-            }
         };
         // video-preview.js may set the src later; until the metadata arrives the item stays 16:9
         if (video.readyState >= 1) apply();
