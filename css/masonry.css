@@ -7,6 +7,14 @@
   align-items: start;  /* items keep their natural height instead of stretching to their span */
 }
 
+/* Safari: a spanned item's height counts as definite, so its width:100% image gets a min-content width of
+   height × ratio. With Webflow's 1fr (= minmax(auto, 1fr)) columns that widens the column, which raises the span,
+   which widens it again, until the layout hits WebKit's 33554432px limit. min-width: 0 stops item content from
+   sizing the columns */
+.gallery-grid.is-masonry > .gallery-item {
+  min-width: 0;
+}
+
 /* Mobile (window.mobileBreakpoint): 2 columns instead of Webflow's 4 */
 @media (max-width: 767px) {
   .gallery-grid {

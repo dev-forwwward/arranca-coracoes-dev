@@ -2,9 +2,8 @@
 // .gallery-item spans its own height plus the gap. Webflow fixes the media boxes at 16:9, so each item's real ratio
 // is read from its video (or image) and set as --masonry-ratio, which masonry.css applies to those boxes.
 //
-// The span is computed from the item's width and media ratio, never from its rendered height: Safari lets a grid
-// item's height follow the rows it spans, so measuring the height fed each span back into the next one and the grid
-// grew without limit (spans in the millions)
+// The span is computed from the item's width and media ratio, never from its rendered height, so a span can't feed
+// back into the next one. Safari also needs min-width: 0 on the items (masonry.css), or spans widen the columns
 const GRID = '.gallery-grid';
 const ITEM = '.gallery-item';
 const ROW = 1; // px, must match grid-auto-rows in masonry.css
